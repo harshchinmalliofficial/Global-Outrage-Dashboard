@@ -1,7 +1,7 @@
 // Import all logos (SVG and PNG)
 import awsLogo from './logos/aws.svg';
-import gcpLogo from './logos/GCPLOGO.png';
-import cloudflareLogo from './logos/cloudflareLogo.png';
+import gcpLogo from './logos/gcplogo.png';
+import cloudflareLogo from './logos/cloudflarelogo.png';
 import salesforceLogo from './logos/salesforce.svg';
 import microsoftLogo from './logos/microsoft.svg';
 import gmailLogo from './logos/gmail.svg';
