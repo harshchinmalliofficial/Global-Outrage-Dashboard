@@ -156,9 +156,10 @@ app.get("/api/health", (req, res) => {
 });
 
 // Serve React app - FIXED WILDCARD ROUTE
-app.get("/*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
+
 
 // Start Server
 const PORT = process.env.PORT || 3001;
