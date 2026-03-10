@@ -1,5 +1,5 @@
 import React from "react";
-import { getCompanyLogo } from "../assets/logo";
+import { getCompanyLogo } from "../assets/logos";
 
 const ServiceCard = ({ service }) => {
   const logo = getCompanyLogo(service.service);

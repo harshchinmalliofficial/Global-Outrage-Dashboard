@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { getCompanyLogo } from "../assets/logo";
+import { getCompanyLogo } from "../assets/logos";
 
 const IncidentPanel = ({ activeIncidents, recentIncidents }) => {
   const scrollRef = useRef(null);
