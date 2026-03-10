@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const axios = require("axios");
-const { getAllStatus } = require("./statusService");
+const { getAllStatus } = require("./statusFetcher");
 
 const app = express();
 
@@ -12,9 +12,7 @@ app.use(express.json());
 // Store for real-time metrics
 const metricsStore = new Map();
 
-// ═══════════════════════════════════════════════════════
 // Real-time latency checker
-// ═══════════════════════════════════════════════════════
 async function measureLatency(url, timeout = 5000) {
   const start = Date.now();
   try {
@@ -110,15 +108,11 @@ function storeMetrics(metrics) {
   });
 }
 
-// ═══════════════════════════════════════════════════════
-// Serve frontend static files (production)
-// ═══════════════════════════════════════════════════════
+// Serve frontend static files
 const frontendPath = path.join(__dirname, "../frontend/dist");
 app.use(express.static(frontendPath));
 
-// ═══════════════════════════════════════════════════════
 // API Routes
-// ═══════════════════════════════════════════════════════
 app.get("/api/status", async (req, res) => {
   try {
     const [statusData, metrics] = await Promise.all([
@@ -160,23 +154,19 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
-// ═══════════════════════════════════════════════════════
-// Serve React app for all other routes
-// ═══════════════════════════════════════════════════════
-app.get("*", (req, res) => {
+// Serve React app - FIXED WILDCARD ROUTE
+app.get("/*", (req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
-// ═══════════════════════════════════════════════════════
 // Start Server
-// ═══════════════════════════════════════════════════════
 const PORT = process.env.PORT || 3001;
 const server = app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📊 Frontend served from: ${frontendPath}`);
 });
 
-// Background metrics collection (every 30 seconds)
+// Background metrics collection
 setInterval(async () => {
   try {
     const metrics = await getRealTimeMetrics();
